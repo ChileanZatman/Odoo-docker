@@ -1,0 +1,30 @@
+version: '2'
+services:
+    odoo:
+        container_name: odoo-10e
+        image: odoo10-e:10.0
+        command: -- -c /etc/odoo/odoo.conf
+        networks:
+            - default
+            - pg_default
+        external_links:
+            - db:db
+        ports:
+            - "8071:8071"
+        volumes:
+            - odoo-data:/var/lib/odoo
+            - ./extra-addons:/mnt/extra-addons
+            - ./conf:/etc/odoo
+        environment:
+            - DB_PORT_5432_TCP_ADDR=50.116.11.91
+            - DB_PORT_5432_TCP_PORT=5432
+            - DB_ENV_POSTGRES_USER=odoomoller
+            - DB_ENV_POSTGRES_PASSWORD=
+networks:
+     default:
+         driver: bridge
+     pg_default:
+         external: true
+volumes:
+    odoo-data:
+
